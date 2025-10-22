@@ -1,0 +1,54 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Keep this stable once published. If you haven't published yet, prefer a lowercase dotted id. -->
+    <id>net.historynoob.stickyhighlighter</id>
+
+    <name>Sticky Highlighter</name>
+    <vendor url="https://example.com">HistoryNoob</vendor>
+
+    <description><![CDATA[
+      Toggle persistent highlights on selected code (or word at caret) and clear them when you want.
+    ]]></description>
+
+    <!-- Targets the base Platform; fine unless you rely on specific IDE plugins. -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Services, EPs, components -->
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow
+                id="Sticky Highlights"
+                anchor="right"
+                icon="/icons/sticky.svg"
+                factoryClass="net.historynoob.stickyhighlighter.StickyHighlightsToolWindowFactory"/>
+
+        <postStartupActivity implementation="net.historynoob.stickyhighlighter.StickyStartupActivity"/>
+
+        <applicationConfigurable
+                instance="net.historynoob.stickyhighlighter.StickySettingsConfigurable"
+                id="net.historynoob.stickyhighlighter.settings"
+                displayName="Sticky Highlighter"
+                parentId="otherSettings"/>
+    </extensions>
+
+    <!-- Actions (appear in editor popup menu + shortcuts) -->
+    <actions>
+        <action
+                id="net.historynoob.stickyhighlighter.ToggleStickyHighlight"
+                class="net.historynoob.stickyhighlighter.ToggleHighlightAction"
+                text="Toggle Sticky Highlight"
+                description="Add or remove a persistent highlight on the selection or word at caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt shift H"/>
+        </action>
+
+        <action
+                id="net.historynoob.stickyhighlighter.ClearStickyHighlights"
+                class="net.historynoob.stickyhighlighter.ClearStickyHighlightsAction"
+                text="Clear All Sticky Highlights"
+                description="Remove all sticky highlights in this editor">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt shift C"/>
+        </action>
+    </actions>
+
+</idea-plugin>
